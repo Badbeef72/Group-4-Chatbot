@@ -15,3 +15,7 @@ async def on_ready():
     print(f'{client.user} has connected to Discord!') # Print statement when client connects to Discord.
 
 client.run(token)
+
+##gay
+
+
