@@ -17,5 +17,6 @@ async def on_ready():
 client.run(token)
 
 ##gay
+##This is me trying to understand github -BDE_Niko
 
 
