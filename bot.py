@@ -1,17 +1,28 @@
-# Main file for Kong Fuzi, setup, connect to Discord etc.
-# Initialisation code used from this tutorial:
-# -- https://realpython.com/how-to-make-a-discord-bot-python/
-##########################################################
-import os                      # Imports necessary libraries.
-import discord
-from dotenv import load_dotenv # Dotenv allows environment variables to be stored in a separate file, such as usernames, IDs etc.
+'''
+    Initialisation code courtesty of:
+    https://www.devdungeon.com/content/make-discord-bot-python
+    
+'''
+import discord # Imports the Discord API.
 
-load_dotenv()                       # Initialises variables.
-token = os.getenv('DISCORD_TOKEN')
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xaj5xA.WugioJKVjRc2c3HnKhYwuzN6EyQ' # Bot's unique ID.
+
 client = discord.Client()
 
 @client.event
-async def on_ready():
-    print(f'{client.user} has connected to Discord!') # Print statement when client connects to Discord.
+async def on_message(message): # If the user sends a certain message, do something.
+    if message.author == client.user:
+        return
 
-client.run(token)
+    if message.content.startswith('!hello'):
+        msg = 'Hello {0.author.mention}'.format(message)
+        await client.send_message(message.channel, msg)
+
+@client.event
+async def on_ready(): # Prints successful login.
+    print('Logged in as')
+    print(client.user.name)
+    print(client.user.id)
+    print('------')
+
+client.run(TOKEN)
