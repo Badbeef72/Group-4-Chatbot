@@ -23,6 +23,12 @@ async def on_message(message): # If the user sends a message, do something.
 
     elif "good" in message_list:
         await message.channel.send(random.choice(store.list_of_goods) + " Do you require my assistance?")
+        assistance_question = 1
+
+    elif assistance_question == 1:
+        if "yes" in message_list:
+            await message.channel.send('What do you need help with?')
+            assistance_question = 0
 
     else: # If anything else is said by the user, the bot outputs a random line describing "I don't know what you mean.".
         await message.channel.send(random.choice(store.list_of_sorrys))
