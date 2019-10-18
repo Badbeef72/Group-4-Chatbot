@@ -4,7 +4,8 @@
 '''
 import discord # Imports the Discord API.
 import random # Imports Python's "random" library.
-import store # Imports the store.py file for lists of responses.
+import store # Imports the store.py file for lists of responses. 
+import requests # Imports thenrequests api, allowing us to code the bot to recieve and respond to requests.
 
 TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XamuuA.KUfrcz_EhTFocY8C1eS7PSeOZu4' # Bot's unique ID.
 
@@ -23,6 +24,10 @@ async def on_message(message): # If the user sends a message, do something.
 
     elif "good" in message_list:
         await message.channel.send(random.choice(store.list_of_goods) + " Do you require my assistance?")
+            if "yes" in message_list:
+                await message.channel.send(random.choice(store.list_of_yes)
+            else:
+                await message.channel.send(random.choice(store.list_of_no)                          
 
     else: # If anything else is said by the user, the bot outputs a random line describing "I don't know what you mean.".
         await message.channel.send(random.choice(store.list_of_sorrys))
