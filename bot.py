@@ -1,13 +1,11 @@
 '''
     Initial code courtesy of:
     https://www.devdungeon.com/content/make-discord-bot-python
-    
+
 '''
 import discord # Imports the Discord API.
 import random # Imports Python's "random" library.
-
-list_of_greetings = ["I hope you have been well?", "How are you?", "Everything going well?", "What's up?", "How's it going?"]
-list_of_sorrys = ["Sorry, I don't understand what you mean.", "I'm not sure I quite understood that.", "I don't know what you mean, sorry."]
+import store # Imports the store.py file for lists of responses.
 
 TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XakAhQ.GXpVXNrEmKk7SHwnoJs8Uyikz2Q' # Bot's unique ID.
 
