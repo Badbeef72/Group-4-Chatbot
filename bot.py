@@ -5,6 +5,7 @@
 import discord # Imports the Discord API.
 import random # Imports Python's "random" library.
 import store # Imports the store.py file for lists of responses.
+import requests # Imports thenrequests api, allowing us to code the bot to recieve and respond to requests.
 
 TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XamuuA.KUfrcz_EhTFocY8C1eS7PSeOZu4' # Bot's unique ID.
 
