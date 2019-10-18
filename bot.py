@@ -1,13 +1,12 @@
 '''
-    Initial code courtesy of:
+    Tutorial from:
     https://www.devdungeon.com/content/make-discord-bot-python
-
 '''
 import discord # Imports the Discord API.
 import random # Imports Python's "random" library.
 import store # Imports the store.py file for lists of responses.
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XakAhQ.GXpVXNrEmKk7SHwnoJs8Uyikz2Q' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XamuuA.KUfrcz_EhTFocY8C1eS7PSeOZu4' # Bot's unique ID.
 
 client = discord.Client()
 
@@ -19,10 +18,14 @@ async def on_message(message): # If the user sends a message, do something.
     if message.author == client.user:
         return
 
-    if message_list[0] == "hello": # If user sends "hello", the bot will reply with "Hello (name of user)!" + A random greeting.
-        await message.channel.send('Hello {0.author.mention}! '.format(message) + random.choice(list_of_greetings))
+    if any(item in store.detectable_greetings for item in message_list): # If user sends "hello", the bot will reply with "Hello (name of user)!" + A random greeting.
+        await message.channel.send('Hello {0.author.mention}! '.format(message) + random.choice(store.list_of_greetings))
+
+    elif "good" in message_list:
+        await message.channel.send(random.choice(store.list_of_goods) + " Do you require my assistance?")
+
     else: # If anything else is said by the user, the bot outputs a random line describing "I don't know what you mean.".
-        await message.channel.send(random.choice(list_of_sorrys))
+        await message.channel.send(random.choice(store.list_of_sorrys))
 
 @client.event
 async def on_ready(): # Prints successful login.
