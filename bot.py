@@ -3,6 +3,13 @@
     Tutorial from:
     https://www.devdungeon.com/content/make-discord-bot-python
 '''
+
+# We need to have a look over how the robot responds and behaves; it has to respond 'like a humna', or as close to that as possible
+# Also, implementing NLTK is important as it is a complex tool and will get us grades, so if everyone or someone wants a good grade. There you go.
+# Also, it might be a good idea to label the code that people do to keep track of contribution.
+# Never delete someone elses code. If it clashes with yours # you or their code out and discuss it with them at a meeting.
+
+
 import discord # Imports the Discord API.
 import random # Imports Python's "random" library.
 import store # Imports the store.py file for lists of responses.
@@ -13,6 +20,11 @@ TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XapN2Q.k30CS29SNQ_56D8w7yuiNbZzFmo' # Bot's un
 
 client = discord.Client()
 
+# Moagy
+@client.event # Prints this string 
+async def on_ready(): # when it is ready to be used in the discord
+    print("I am ready to be of assistance.") # used in the discord
+    
 @client.event
 # If the user sends a message, do something.
 async def on_message(message):
@@ -41,17 +53,67 @@ async def on_message(message):
             msg2_list = msg2_list.split()
 
             # If the user says yes, the bot will reply with "What with?".
-            if any(item in store.detectable_yes for item in msg2_list):
-                await message.channel.send(random.choice(store.list_of_yes).format(msg2))
-                msg3 = await client.wait_for('message')
-                msg3_list = msg3.content.lower()
-                msg3_list = msg3_list.split()
-                if "bmi" in msg3_list:
-                    await bmi.bmi_calculator(message)
+#            if any(item in store.detectable_yes for item in msg2_list):
+ #               await message.channel.send(random.choice(store.list_of_yes).format(msg2))
+  #              msg3 = await client.wait_for('message')
+   #             msg3_list = msg3.content.lower()
+    #            msg3_list = msg3_list.split()
+     #           if "bmi" in msg3_list:
+      #              await bmi.bmi_calculator(message)
     # If anything else is said by the user, the bot outputs a random line describing "I don't know what you mean.".
     #else: 
         #await message.channel.send(random.choice(store.list_of_sorrys))
-
+        
+        # Moagy
+            # Listing its functions and then making them activated via command in the format of !command
+            # The names of the functions are not set in stone, they can be subject to change
+            
+            if any(item in store.detectable_yes for item in msg2_list):
+                await message.channel.send("These are my function commands:") # This can be changed to print something else; my mind was not feeling creative
+                await message.channel.send("!bmi : I can help work out your BMI using your height, weight and age."
+                await message.channel.send("!gymfinder : I can help you find the best gym near you."                        
+                await message.channel.send("!exercises : I can give you exercises to do to work out certain muscles." 
+                await message.channel.send("!fitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve."                       
+            
+            # The robot should respond to these commands
+            # Danny/ someone have a look at this and try and think of a way to allow the bot to respond to these commands without having to go through the small talk
+            
+            if message.content.upper().startswith('!BMI'):
+                # BMI code in here please
+                # Asks for height.
+                await bmi_msg.channel.send('May I ask what your height is, in centimetres?')
+                # Converts reply to an integer.
+                bmi_height = await client.wait_for('message')
+                bmi_height_int = int(bmi_height.content)
+                # Then, asks for weight.
+                await bmi_msg.channel.send(random.choice(store.list_of_goods) + 'And may I ask what your weight in kilograms is?'.format(bmi_height))
+                # Converts again to an integer.
+                bmi_weight = await client.wait_for('message')
+                bmi_weight_int = int(bmi_weight.content)
+                # Calculates the BMI.
+                bmi_result = (bmi_weight_int / (bmi_height_int**2)) / 100
+                await bmi_msg.channel.send('Your BMI is: ' + str(bmi_result).format(bmi_weight))
+                # Outputs result.
+                if bmi_result < 18.5:
+                    await bmi_msg.channel.send('You are classified as underweight.')
+                elif bmi_result >= 18.5 and bmi_result < 24.9:
+                    await bmi_msg.channel.send('You are classified as a healthy weight.')
+                elif bmi_result >= 24.9 and bmi_result < 29.9:
+                    await bmi_msg.channel.send('You are classified as overweight.')
+                elif bmi_result >= 29.9:
+                    await bmi_msg.channel.send('You are classified as obese.')
+                                           
+            if message.content.upper().startswith('!GYMFINDER'):
+                # Gymfinder code in here please
+                                           
+            if message.content.upper().startswith('!EXERCISES'):
+                # Exercises code in here please
+                                           
+            if message.content.upper().startswith('!FITNESSGOALS'):
+                # Fitness goal code in here please
+                                           
+                                           
+                                          
 @client.event
 # Prints successful login.
 async def on_ready():
