@@ -2,6 +2,7 @@
 detectable_greetings = ["hello", "hi", "yo", "sup"]
 detectable_positives = ["good", "fine", "great", "alright"]
 detectable_yes = ["yes", "yup", "yeah"]
+meal_prep_keywords = ["meal", "food"]
 
 list_of_greetings = ["I hope you have been well?", "How are you?", "Everything going well?", "What's up?", "How's it going?"]
 list_of_sorrys = ["Sorry, I don't understand what you mean.", "I'm not sure I quite understood that.", "I don't know what you mean, sorry."]
