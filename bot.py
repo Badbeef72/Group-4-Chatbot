@@ -36,9 +36,9 @@ async def on_message(message): # If the user sends a message, do something.
 
 @client.event
 async def on_ready(): # Prints successful login.
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
+    print('Logged in as:')
+    print('Name: ' + client.user.name)
+    print('ID: ' + client.user.id)
     print('------')
 
 client.run(TOKEN)
