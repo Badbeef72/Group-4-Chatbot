@@ -53,6 +53,8 @@ async def on_message(message):
             msg2_list = msg2.content.lower()
             msg2_list = msg2_list.split()
 
+            
+            # I have #'ed this out Danny as it clashes with the block of code that follows that I have added. They do the same thing.
             # If the user says yes, the bot will reply with "What with?".
 #            if any(item in store.detectable_yes for item in msg2_list):
  #               await message.channel.send(random.choice(store.list_of_yes).format(msg2))
