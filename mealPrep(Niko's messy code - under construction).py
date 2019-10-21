@@ -4,7 +4,7 @@ import requests
 import store
 
 
-token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XazA_g.UfGa942Ck4m_t-bNOW-MiOcXijo'
+token = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xa2L3Q.G0V-fiUzoeZ8gXdvQBx11KNM8rg'
 
 client = discord.Client()
 
@@ -29,14 +29,14 @@ async def on_message(message): #if the user request a meal preparation
         msg2 = await client.wait_for('message')
         msg2_list = msg2.content.lower()
         msg2_list = msg2_list.split()
-        if msg2_list == "breakfast":
-            await message.chanel.send('I will create a breakfast meal for you')
+        if "breakfast" in msg2_list:
+            await message.channel.send('I will create a breakfast meal for you')
             msg_breakfast = await client.wait_for('message')
-        elif msg2_list == "lunch":
-            await message.chanel.send('I will create a lunch meal for you')
+        elif "lunch" in msg2_list:
+            await message.channel.send('I will create a lunch meal for you')
             msg_lunch = await client.wait_for('message')
-        elif msg2_list == "dinner":
-            await message.chanel.send('I will create a dinner meal for you')
+        elif "dinner" in msg2_list:
+            await message.channel.send('I will create a dinner meal for you')
             msg_dinner = await client.wait_for('message')
     else:
         await message.channel.send(random.choice(store.list_of_sorrys))
