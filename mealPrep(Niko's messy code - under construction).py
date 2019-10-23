@@ -2,33 +2,27 @@ import discord
 import random
 import requests
 import store
+import nltk
+
+from nltk import *
 
 
-token = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xa2L3Q.G0V-fiUzoeZ8gXdvQBx11KNM8rg'
+token = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xa75vQ.dAaGjjiwD52A7qFas3MxLwe1CdI'
 
 client = discord.Client()
 
+
 @client.event
 async def on_message(message): #if the user request a meal preparation
-    message_list = message.content.lower()
-    message_list = message_list.split()
-    print(message_list)
+    tokenized_word = word_tokenize(message.content)
+    print(tokenized_word)
     if message.author == client.user:
         return
-    elif message.content.lower() == "hello there":
-        await message.channel.send('General Kenobi!')
-
-    elif any(item in store.detectable_greetings for item in message_list):
-        await message.channel.send('Hello {0.author.mention}! '.format(message) + random.choice(store.list_of_greetings))
-        msg1 = await client.wait_for('message')
-        msg1_list = msg1.content.lower()
-        msg1_list = msg1_list.split()
-
-    elif any(item in store.meal_prep_keywords for item in message_list):
+    elif any(item in store.meal_prep_keywords for item in tokenized_word):
         await message.channel.send('I can help you with that. Are you planning to eat breakfast, lunch or dinner?')
         msg2 = await client.wait_for('message')
-        msg2_list = msg2.content.lower()
-        msg2_list = msg2_list.split()
+        msg2_tokenized = word_tokenize(msg2)
+        print(msg2_tokenized)
         if "breakfast" in msg2_list:
             await message.channel.send('I will create a breakfast meal for you')
             msg_breakfast = await client.wait_for('message')
