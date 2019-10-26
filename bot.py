@@ -16,7 +16,7 @@ import store # Imports the store.py file for lists of responses.
 import bmi #Imports the bmi.py file to calculate a person's BMI.
 #import requests # Imports the requests api, allowing us to code the bot to recieve and respond to requests.
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xa7vmQ.RICGilinTB72GjQPjZTpxAhRtKo' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbR07A.pRvSHE7W_5HBBrTKcxNlfnYNjKQ' # Bot's unique ID.
 
 client = discord.Client()
 
@@ -65,15 +65,8 @@ async def on_message(message):
             # Listing its functions and then making them activated via command in the format of !command
             # The names of the functions are not set in stone, they can be subject to change
 
-            #if any(item in store.detectable_yes for item in msg2_list):
-                #await message.channel.send("These are my function commands:") # This can be changed to print something else; my mind was not feeling creative
-                #await message.channel.send("!bmi : I can help work out your BMI using your height, weight and age.")
-                #await message.channel.send("!gymfinder : I can help you find the best gym near you.")
-                #await message.channel.send("!exercises : I can give you exercises to do to work out certain muscles.")
-                #await message.channel.send("!fitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
-
             if any(item in store.detectable_yes for item in msg2_list):
-                await message.channel.send("These are my function commands: \n!bmi : I can help work out your BMI using your height, weight and age. \n!gymfinder : I can help you find the best gym near you. \n!exercises : I can give you exercises to do to work out certain muscles. \n!fitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
+                await message.channel.send("These are my function commands: \n!bmi <height in metres> <weight in kgs> : I can help work out your BMI using your height, weight and age. \n!gymfinder : I can help you find the best gym near you. \n!exercises : I can give you exercises to do to work out certain muscles. \n!fitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
 
             # The robot should respond to these commands
             # List of commands the bot will respond to
