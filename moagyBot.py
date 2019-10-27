@@ -10,7 +10,7 @@ import nltk
 #from scipy.feature_extraction.text import sklearn
 #from scipy.metrics.pairwise import cosine_similarity
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbR07A.pRvSHE7W_5HBBrTKcxNlfnYNjKQ' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbWPOA.w8XSPCHR4f98li-ScxBXbGyxlYc' # Bot's unique ID.
 
 
 client = discord.Client()
@@ -29,18 +29,17 @@ word_tokens = nltk.word_tokenize(raw)
 
 lemmer = nltk.stem.WordNetLemmatizer()
 
-#@client.event
+@client.event
 
 def lemTokens(tokens):
-  return [lemmer.lemmetize(token) for token in tokens]
-  remove_punc_dict = dict((ord(punct), None) for punct in string.punctuation)
-
+    return [lemmer.lemmetize(token) for token in tokens]
+    remove_punc_dict = dict((ord(punct), None) for punct in string.punctuation)
 
 def lemNormalize(text):
-  return
-lemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
+    return text
+    lemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
 
-from store.py import detectable_greetings, list_of_greetings
+from store import detectable_greetings, list_of_greetings
 
 triggerBotReponse = detectable_greetings
 botResponse = list_of_greetings
@@ -69,6 +68,14 @@ def response(user_response):
     else:
         bot_response = bot_response + sent_tokens[idx]
         return bot_response
+
+@client.event
+# Prints successful login.
+async def on_ready():
+    print('Logged in as')
+    print(client.user.name)
+    print(client.user.id)
+    print('------')
 
 
 
