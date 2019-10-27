@@ -7,10 +7,13 @@ import tkinter
 import numpy as np
 import string
 import nltk
+import warnings
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 #from scipy.feature_extraction.text import sklearn
 #from scipy.metrics.pairwise import cosine_similarity
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbWPOA.w8XSPCHR4f98li-ScxBXbGyxlYc' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbX4vw.fZma6whZ-f_6B5EhJgcwp7JxLo0' # Bot's unique ID.
 
 
 client = discord.Client()
@@ -29,7 +32,7 @@ word_tokens = nltk.word_tokenize(raw)
 
 lemmer = nltk.stem.WordNetLemmatizer()
 
-@client.event
+# @client.event
 
 def lemTokens(tokens):
     return [lemmer.lemmetize(token) for token in tokens]
