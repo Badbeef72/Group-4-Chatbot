@@ -16,7 +16,7 @@ import store # Imports the store.py file for lists of responses.
 import bmi #Imports the bmi.py file to calculate a person's BMI.
 #import requests # Imports the requests api, allowing us to code the bot to recieve and respond to requests.
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbR07A.pRvSHE7W_5HBBrTKcxNlfnYNjKQ' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbYKfg.g40KlmqJvGRvjYPSKIPRpRvQ-Rs' # Bot's unique ID.
 
 client = discord.Client()
 
@@ -47,7 +47,11 @@ async def on_message(message):
             msg2_list = msg2.content.lower()
             msg2_list = msg2_list.split()
 
+            if any(item in store.detectable_positives for item in msg2_list):
+                await message.channel.send(random.choice(store.list_of_goods) + ' What do you need help with?'.format(msg2))
 
+            elif any(item in store.detectable_negatives for item in msg2_list):
+                await message.channel.send('I will be here if you need me.'.format(msg2))
             # I have #'ed this out Danny as it clashes with the block of code that follows that I have added. They do the same thing.
             # If the user says yes, the bot will reply with "What with?".
 #            if any(item in store.detectable_yes for item in msg2_list):
@@ -66,12 +70,12 @@ async def on_message(message):
             # The names of the functions are not set in stone, they can be subject to change
 
             if any(item in store.detectable_yes for item in msg2_list):
-                await message.channel.send("These are my function commands: \n!bmi <height in metres> <weight in kgs> : I can help work out your BMI using your height, weight and age. \n!gymfinder : I can help you find the best gym near you. \n!exercises : I can give you exercises to do to work out certain muscles. \n!fitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
+                await message.channel.send("These are my function commands: \nbmi <height in metres> <weight in kgs> : I can help work out your BMI using your height, weight and age. \ngymfinder : I can help you find the best gym near you. \nexercises : I can give you exercises to do to work out certain muscles. \nfitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
 
             # The robot should respond to these commands
             # List of commands the bot will respond to
 
-    elif message.content.upper().startswith('!BMI'):
+    elif 'bmi' in message_list:
         await bmi.bmi_calculator(message, message_list[1], message_list[2])
 
     #elif message.content.upper().startswith('!GYMFINDER'):
@@ -85,12 +89,12 @@ async def on_message(message):
 
 
 
-#@client.event
+@client.event
 # Prints successful login.
-#async def on_ready():
-#    print('Logged in as')
-#    print(client.user.name)
-#    print(client.user.id)
-#    print('------')
+async def on_ready():
+    print('Logged in as')
+    print(client.user.name)
+    print(client.user.id)
+    print('------')
 
 client.run(TOKEN)

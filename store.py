@@ -2,6 +2,7 @@ from nltk.corpus import wordnet
 # File for storing lists of potential input/output strings.
 detectable_greetings = ["hello", "hi", "yo", "sup"]
 detectable_positives = ["good", "fine", "great", "alright"]
+detectable_negatives = ["bad", "no", "nah"]
 detectable_yes = ["yes", "yup", "yeah"]
 meal_prep_keywords = wordnet.synsets('meal')
 
