@@ -7,8 +7,8 @@ import warnings
 import numpy as np
 import nltk
 from nltk.stem import WordNetLemmatizer
-# from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 global_user_response = []
 
@@ -35,7 +35,6 @@ def lemNormalize(text):
 
 
 # Matching greetings with responses
-
 GREETING_INPUTS = store.detectable_greetings
 GREETING_RESPONSES = store.list_of_greetings
 
