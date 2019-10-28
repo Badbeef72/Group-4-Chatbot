@@ -2,6 +2,7 @@ from nltk.corpus import wordnet
 # File for storing lists of potential input/output strings.
 detectable_greetings = ["hello", "hi", "yo", "sup"]
 detectable_positives = ["good", "fine", "great", "alright"]
+detectable_negatives = ["bad", "no", "nah"]
 detectable_yes = ["yes", "yup", "yeah"]
 meal_prep_keywords = ["food","meal","prep"]
 
@@ -10,3 +11,6 @@ list_of_sorrys = ["Sorry, I don't understand what you mean.", "I'm not sure I qu
 list_of_goods = ["That's good to hear!", "Nice to hear!", "That's good!"]
 list_of_yes = ["What would you like help with?", "Great! Where shall we begin?"]
 list_of_no = ["OK, enjoy your day.", "I will be here if you change your mind.", "No problem, enjoy the rest of the day."]
+
+list_of_goodbyes = ["bye", "goodbye", "see ya", "chat to you later", "cheerio", "all the best", "night", "later"]
+list_of_thanks = ["thanks", "thank you", "cheers", "ty", "thx", "much appreciated"]
