@@ -1,16 +1,19 @@
 # necessary libraries for this bot
 import io
 import random
+import store
 import string
 import warnings
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+import nltk
+from nltk.stem import WordNetLemmatizer
+# from sklearn.feature_extraction.text import TfidfVectorizer
+# from sklearn.metrics.pairwise import cosine_similarity
+
+global_user_response = []
 
 warnings.filterwarnings('ignore')
 
-import nltk
-from nltk.stem import WordNetLemmatizer
 nltk.download('popular', quiet=True)
 
 # Reading in the corpus
@@ -32,10 +35,9 @@ def lemNormalize(text):
 
 
 # Matching greetings with responses
-import store.py
 
-GREETING_INPUTS = detectable_greetings
-GREETING_RESPONSES = list_of_greetings
+GREETING_INPUTS = store.detectable_greetings
+GREETING_RESPONSES = store.list_of_greetings
 
 def greeting(sentence):
     for word in sentence.split():
@@ -46,6 +48,7 @@ def greeting(sentence):
 # Generating the responses
 # This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
 def response(user_response):
+    global_user_response = user_response
     bot_response = ''
     sent_tokens.append(user_response)
     TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words='english')
@@ -63,22 +66,25 @@ def response(user_response):
         return bot_response
 
 
+
 flag=True
 print("My name is FitnessFriend. I will answer your queries about Fitness.")
 while(flag == True):
-    from store import list_of_goodbyes, list_of_thanks
-    user_response = user_response.lower(list_of_goodbyes)
-    if(user_response != list_of_goodbyes):
-        if(user_response == list_of_thanks):
+    temp_var_1 = ' '.join(global_user_response)
+    temp_var_1 = str(temp_var_1.lower())
+    temp_var_1 = temp_var_1.split()
+    global_user_response = temp_var_1
+    if(global_user_response != store.list_of_goodbyes):
+        if(global_user_response == store.list_of_thanks):
             flag = False
             print("You're welcome bud.")
         else:
-            if(greeting(user_response) != None):
-                print(greeting(user_response))
+            if(greeting(global_user_response) != None):
+                print(greeting(global_user_response))
             else:
                 print(end="")
-                print(response(user_response))
-                sent_tokens.remove(user_response)
+                print(response(global_user_response))
+                sent_tokens.remove(global_user_response)
     else:
         flag = False
         print("See ya! Take it easy.")
