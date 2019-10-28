@@ -5,24 +5,25 @@ import store
 import string
 import warnings
 import numpy as np
-import nltk
+from nltk import *
 from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 # from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity
 
 global_user_response = []
 
 warnings.filterwarnings('ignore')
 
-nltk.download('popular', quiet=True)
+download('popular', quiet=True)
 
 # Reading in the corpus
 with open('nltkCorpus.txt','r', encoding='utf8', errors ='ignore') as fin:
     raw = fin.read().lower()
 
 # Tokenisation
-sent_tokens = nltk.sent_tokenize(raw)
-word_tokens = nltk.word_tokenize(raw)
+sent_tokens = sent_tokenize(raw)
+word_tokens = word_tokenize(raw)
 
 # Word preprocessing
 # This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
@@ -31,7 +32,7 @@ def lemTokens(tokens):
     return [lemmer.lemmatize(token) for token in tokens]
 remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
 def lemNormalize(text):
-    return lemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
+    return lemTokens(word_tokenize(text.lower().translate(remove_punct_dict)))
 
 
 # Matching greetings with responses
@@ -50,7 +51,7 @@ def response(user_response):
     global_user_response = user_response
     bot_response = ''
     sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer = LemNormalize, stop_words = 'english')
+    TfidfVec = TfidfVectorizer(tokenizer = lemNormalize, stop_words = 'english')
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
     idx = vals.argsort()[0][-2]
