@@ -70,7 +70,7 @@ async def on_message(message):
             # The names of the functions are not set in stone, they can be subject to change
 
             if any(item in store.detectable_yes for item in msg2_list):
-                await message.channel.send("These are my function commands: \nbmi <height in metres> <weight in kgs> : I can help work out your BMI using your height, weight and age. \ngymfinder : I can help you find the best gym near you. \nexercises : I can give you exercises to do to work out certain muscles. \nfitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
+                await message.channel.send("These are my function commands: \nbmi <height in metres> <weight in kgs> : I can help work out your BMI using your height and weight. \ngymfinder : I can help you find the best gym near you. \nexercises : I can give you exercises to do to work out certain muscles. \nfitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
 
             # The robot should respond to these commands
             # List of commands the bot will respond to
