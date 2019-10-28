@@ -4,17 +4,19 @@
     https://www.devdungeon.com/content/make-discord-bot-python
 '''
 
-# We need to have a look over how the robot responds and behaves; it has to respond 'like a humna', or as close to that as possible
-# Also, implementing NLTK is important as it is a complex tool and will get us grades, so if everyone or someone wants a good grade. There you go.
-# Also, it might be a good idea to label the code that people do to keep track of contribution.
-# Never delete someone elses code. If it clashes with yours # you or their code out and discuss it with them at a meeting.
-
-
-import discord # Imports the Discord API.
-import random # Imports Python's "random" library.
-import store # Imports the store.py file for lists of responses.
-import bmi #Imports the bmi.py file to calculate a person's BMI.
-#import requests # Imports the requests api, allowing us to code the bot to recieve and respond to requests.
+# necessary libraries for this bot
+import discord
+import io
+import languageProcessing
+import numpy as np
+from nltk import *
+from nltk.stem import WordNetLemmatizer
+import random
+import store
+import string
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import warnings
 
 TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbYKfg.g40KlmqJvGRvjYPSKIPRpRvQ-Rs' # Bot's unique ID.
 
@@ -52,42 +54,101 @@ async def on_message(message):
 
             elif any(item in store.detectable_negatives for item in msg2_list):
                 await message.channel.send('I will be here if you need me.'.format(msg2))
-            # I have #'ed this out Danny as it clashes with the block of code that follows that I have added. They do the same thing.
-            # If the user says yes, the bot will reply with "What with?".
-#            if any(item in store.detectable_yes for item in msg2_list):
- #               await message.channel.send(random.choice(store.list_of_yes).format(msg2))
-  #              msg3 = await client.wait_for('message')
-   #             msg3_list = msg3.content.lower()
-    #            msg3_list = msg3_list.split()
-     #           if "bmi" in msg3_list:
-      #              await bmi.bmi_calculator(message)
-    # If anything else is said by the user, the bot outputs a random line describing "I don't know what you mean.".
-    #else:
-        #await message.channel.send(random.choice(store.list_of_sorrys))
-
-        # Moagy
-            # Listing its functions and then making them activated via command in the format of !command
-            # The names of the functions are not set in stone, they can be subject to change
 
             if any(item in store.detectable_yes for item in msg2_list):
                 await message.channel.send("These are my function commands: \nbmi <height in metres> <weight in kgs> : I can help work out your BMI using your height and weight. \ngymfinder : I can help you find the best gym near you. \nexercises : I can give you exercises to do to work out certain muscles. \nfitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
 
-            # The robot should respond to these commands
-            # List of commands the bot will respond to
-
     elif 'bmi' in message_list:
         await bmi.bmi_calculator(message, message_list[1], message_list[2])
 
-    #elif message.content.upper().startswith('!GYMFINDER'):
-            # The robot should respond to these commands
+global_user_response = []
 
-    #elif message.content.upper().startswith('!EXERCISES'):
-            # Exercises code in here please
+warnings.filterwarnings('ignore')
 
-    #elif message.content.upper().startswith('!FITNESSGOALS'):
-            # Fitness goal code in here please
+download('popular', quiet=True)
+
+# Reading in the corpus
+with open('nltkCorpus.txt','r', encoding='utf8', errors ='ignore') as fin:
+    raw = fin.read().lower()
+
+# Tokenisation
+sent_tokens = sent_tokenize(raw)
+word_tokens = word_tokenize(raw)
+
+# Word preprocessing
+# This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
+lemmer = WordNetLemmatizer()
+def lemTokens(tokens):
+    return [lemmer.lemmatize(token) for token in tokens]
+remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
+def lemNormalize(text):
+    return lemTokens(word_tokenize(text.lower().translate(remove_punct_dict)))
 
 
+# Matching greetings with responses
+GREETING_INPUTS = store.detectable_greetings
+GREETING_RESPONSES = store.list_of_greetings
+
+
+def greeting(sentence):
+    for word in sentence.split():
+        if word.lower() in GREETING_INPUTS:
+            return random.choice(GREETING_RESPONSES)
+
+
+# Generating the responses
+# This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
+def response(user_response):
+    global_user_response = user_response
+    bot_response = ''
+    sent_tokens.append(user_response)
+    TfidfVec = TfidfVectorizer(tokenizer = lemNormalize, stop_words = 'english')
+    tfidf = TfidfVec.fit_transform(sent_tokens)
+    vals = cosine_similarity(tfidf[-1], tfidf)
+    idx = vals.argsort()[0][-2]
+    flat = vals.flatten()
+    flat.sort()
+    req_tfidf = flat[-2]
+    if(req_tfidf == 0):
+        bot_response = bot_response + "I am sorry! I don't get you bro."
+        return bot_response
+    else:
+        bot_response = bot_response + sent_tokens[idx]
+        return bot_response
+
+
+flag=True
+print("My name is FitnessFriend. I will answer your queries about Fitness.")
+while(flag == True):
+    temp_var_1 = ' '.join(global_user_response).lower()
+    global_user_response = temp_var_1
+    if(global_user_response != store.list_of_goodbyes):
+        if(global_user_response == store.list_of_thanks):
+            flag = False
+            print("You're welcome bud.")
+        else:
+            if(greeting(global_user_response) != None):
+                print(greeting(global_user_response))
+            else:
+                print(end="")
+                print(response(global_user_response))
+                sent_tokens.remove(global_user_response)
+    else:
+        flag = False
+        print("See ya! Take it easy.")
+
+
+                #################
+                ## Referencing ##
+                #################
+
+# Here are some links to websites and documentation I used to create this consider
+# https://www.nltk.org/
+# https://scikit-learn.org/stable/modules/classes.html#module-sklearn.feature_extraction.text
+# https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
+# https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e
+# https://www.youtube.com/watch?v=xECXZ3tyONo
+# https://www.youtube.com/watch?v=FLZvOKSCkxY
 
 @client.event
 # Prints successful login.

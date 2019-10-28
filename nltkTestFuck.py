@@ -71,8 +71,6 @@ flag=True
 print("My name is FitnessFriend. I will answer your queries about Fitness.")
 while(flag == True):
     temp_var_1 = ' '.join(global_user_response).lower()
-    #temp_var_1 = str(temp_var_1)
-    #temp_var_1 = temp_var_1.split()
     global_user_response = temp_var_1
     if(global_user_response != store.list_of_goodbyes):
         if(global_user_response == store.list_of_thanks):
