@@ -7,7 +7,7 @@ from nltk import *
 nltk.download('punkt')
 
 
-token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbsNhQ.3QSZjHfHY_170vijeFhzBmDZMZg'
+token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbsuHQ.DPmI7HqIVo8EqnO_EdCa-Y_4T3A'
 client = discord.Client()
 
 @client.event
@@ -27,7 +27,7 @@ async def on_message(message):
         msg1 = str(await client.wait_for('message'.lower()))
         tokenized_word2 = word_tokenize(msg1)
         print(tokenized_word2)
-        if "lunch" in tokenized_word2:
+        if "lunch" in tokenized_word2 or tokenized_word1:
             await message.channel.send("I can give you a meal for lunch")
 
 
