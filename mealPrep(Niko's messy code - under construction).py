@@ -5,6 +5,7 @@ import store
 import nltk
 from nltk import *
 nltk.download('punkt')
+from py_edamam import  *
 
 
 token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbsuHQ.DPmI7HqIVo8EqnO_EdCa-Y_4T3A'
@@ -20,15 +21,19 @@ async def on_message(message):
     if any(item in store.detectable_greetings for item in tokenized_word):
         await message.channel.send('Hello {0.author.mention}! '.format(message) + random.choice(store.list_of_greetings))
         msg = str(await client.wait_for('message'.lower()))
-        tokenized_word1 = word_tokenize(msg)
-        print(tokenized_word1)
-    if any(item in store.meal_prep_keywords for item in tokenized_word or tokenized_word1):
+        tokenized_word = word_tokenize(msg)
+        print(tokenized_word)
+    if any(item in store.meal_prep_keywords for item in tokenized_word):
         await message.channel.send('I can help you to prepare a meal')
-        msg1 = str(await client.wait_for('message'.lower()))
-        tokenized_word2 = word_tokenize(msg1)
-        print(tokenized_word2)
-        if "lunch" in tokenized_word2 or tokenized_word1:
-            await message.channel.send("I can give you a meal for lunch")
+        msg = str(await client.wait_for('message'.lower()))
+        tokenized_word = word_tokenize(msg)
+        print(tokenized_word)
+    if "breakfast" and "" in tokenized_word:
+        await message.channel.send("I will create a breakfast  meal for you")
+    if "lunch" in tokenized_word:
+        await message.channel.send("I will create a lunch meal for you")
+    if "dinner" in tokenized_word:
+        await message.channel.send("I will create a dinner meal for you")
 
 
 @client.event
