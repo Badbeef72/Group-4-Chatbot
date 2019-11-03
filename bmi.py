@@ -20,3 +20,5 @@ async def bmi_calculator(bmi_msg, height, weight):
         await bmi_msg.channel.send('You are classified as overweight.')
     elif bmi_result >= 29.9:
         await bmi_msg.channel.send('You are classified as obese.')
+async def bmi_help(bmi_msg):
+    await bmi_msg.channel.send("To help me calculate your bmi, you can type: bmi [your height in metres] [your weight in kilograms], and i'll do the rest for you!")

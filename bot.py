@@ -17,8 +17,10 @@ import string
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import warnings
+import googleSearchTest
+import bmi
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbYKfg.g40KlmqJvGRvjYPSKIPRpRvQ-Rs' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xb7oAA.vZBrdMqKqh6zbqJQNYPg3HiKrGk' # Bot's unique ID.
 
 client = discord.Client()
 
@@ -58,84 +60,89 @@ async def on_message(message):
             if any(item in store.detectable_yes for item in msg2_list):
                 await message.channel.send("These are my function commands: \nbmi <height in metres> <weight in kgs> : I can help work out your BMI using your height and weight. \ngymfinder : I can help you find the best gym near you. \nexercises : I can give you exercises to do to work out certain muscles. \nfitnessgoals : I can give you certain lifestyle advice depending on what you want to achieve.")
 
-    elif 'bmi' in message_list:
+    elif 'bmi' in message_list and 'help' in message_list:
+        await bmi.bmi_help(message)
+    elif 'bmi' in message_list and 'help' not in message_list:
         await bmi.bmi_calculator(message, message_list[1], message_list[2])
 
-global_user_response = []
+    elif 'search' in message_list:
+        await googleSearchTest.googleSearch(message, message_list[1:])
 
-warnings.filterwarnings('ignore')
+# global_user_response = []
 
-download('popular', quiet=True)
+# warnings.filterwarnings('ignore')
 
-# Reading in the corpus
-with open('nltkCorpus.txt','r', encoding='utf8', errors ='ignore') as fin:
-    raw = fin.read().lower()
+# download('popular', quiet=True)
 
-# Tokenisation
-sent_tokens = sent_tokenize(raw)
-word_tokens = word_tokenize(raw)
+# # Reading in the corpus
+# with open('nltkCorpus.txt','r', encoding='utf8', errors ='ignore') as fin:
+#     raw = fin.read().lower()
 
-# Word preprocessing
-# This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
-lemmer = WordNetLemmatizer()
-def lemTokens(tokens):
-    return [lemmer.lemmatize(token) for token in tokens]
-remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
-def lemNormalize(text):
-    return lemTokens(word_tokenize(text.lower().translate(remove_punct_dict)))
+# # Tokenisation
+# sent_tokens = sent_tokenize(raw)
+# word_tokens = word_tokenize(raw)
 
-
-# Matching greetings with responses
-GREETING_INPUTS = store.detectable_greetings
-GREETING_RESPONSES = store.list_of_greetings
+# # Word preprocessing
+# # This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
+# lemmer = WordNetLemmatizer()
+# def lemTokens(tokens):
+#     return [lemmer.lemmatize(token) for token in tokens]
+# remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
+# def lemNormalize(text):
+#     return lemTokens(word_tokenize(text.lower().translate(remove_punct_dict)))
 
 
-def greeting(sentence):
-    for word in sentence.split():
-        if word.lower() in GREETING_INPUTS:
-            return random.choice(GREETING_RESPONSES)
+# # Matching greetings with responses
+# GREETING_INPUTS = store.detectable_greetings
+# GREETING_RESPONSES = store.list_of_greetings
 
 
-# Generating the responses
-# This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
-def response(user_response):
-    global_user_response = user_response
-    bot_response = ''
-    sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer = lemNormalize, stop_words = 'english')
-    tfidf = TfidfVec.fit_transform(sent_tokens)
-    vals = cosine_similarity(tfidf[-1], tfidf)
-    idx = vals.argsort()[0][-2]
-    flat = vals.flatten()
-    flat.sort()
-    req_tfidf = flat[-2]
-    if(req_tfidf == 0):
-        bot_response = bot_response + "I am sorry! I don't get you bro."
-        return bot_response
-    else:
-        bot_response = bot_response + sent_tokens[idx]
-        return bot_response
+# def greeting(sentence):
+#     for word in sentence.split():
+#         if word.lower() in GREETING_INPUTS:
+#             return random.choice(GREETING_RESPONSES)
 
 
-flag=True
-print("My name is FitnessFriend. I will answer your queries about Fitness.")
-while(flag == True):
-    temp_var_1 = ' '.join(global_user_response).lower()
-    global_user_response = temp_var_1
-    if(global_user_response != store.list_of_goodbyes):
-        if(global_user_response == store.list_of_thanks):
-            flag = False
-            print("You're welcome bud.")
-        else:
-            if(greeting(global_user_response) != None):
-                print(greeting(global_user_response))
-            else:
-                print(end="")
-                print(response(global_user_response))
-                sent_tokens.remove(global_user_response)
-    else:
-        flag = False
-        print("See ya! Take it easy.")
+# # Generating the responses
+# # This block of code was copied from https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e, and modified to suit our particular project
+# def response(user_response):
+#     global_user_response = user_response
+#     bot_response = ''
+#     sent_tokens.append(user_response)
+#     TfidfVec = TfidfVectorizer(tokenizer = lemNormalize, stop_words = 'english')
+#     tfidf = TfidfVec.fit_transform(sent_tokens)
+#     vals = cosine_similarity(tfidf[-1], tfidf)
+#     idx = vals.argsort()[0][-2]
+#     flat = vals.flatten()
+#     flat.sort()
+#     req_tfidf = flat[-2]
+#     if(req_tfidf == 0):
+#         bot_response = bot_response + "I am sorry! I don't get you bro."
+#         return bot_response
+#     else:
+#         bot_response = bot_response + sent_tokens[idx]
+#         return bot_response
+
+
+# flag=True
+# print("My name is FitnessFriend. I will answer your queries about Fitness.")
+# while(flag == True):
+#     temp_var_1 = ' '.join(global_user_response).lower()
+#     global_user_response = temp_var_1
+#     if(global_user_response != store.list_of_goodbyes):
+#         if(global_user_response == store.list_of_thanks):
+#             flag = False
+#             print("You're welcome bud.")
+#         else:
+#             if(greeting(global_user_response) != None):
+#                 print(greeting(global_user_response))
+#             else:
+#                 print(end="")
+#                 print(response(global_user_response))
+#                 sent_tokens.remove(global_user_response)
+#     else:
+#         flag = False
+#         print("See ya! Take it easy.")
 
 
                 #################
