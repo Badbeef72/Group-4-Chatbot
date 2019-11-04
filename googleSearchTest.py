@@ -11,20 +11,27 @@
 # Return : Generator (iterator) that yields found URLs. If the stop parameter is None the iterator will loop forever.
 
 # import appropriate api
+# perform the search
+# make the user input be the search
+# query = input("What would you like to search")
 
 from googlesearch import search
+
+
 import discord
 client = discord.Client()
 async def googleSearch(google_msg, googleQuery):
-    # perform the search
+
 
     combinedQuery = ' '.join(googleQuery)
     print(combinedQuery)
     for j in search(combinedQuery, tld="co.in", num=5, stop=1, pause=2):
         await google_msg.channel.send('Did you mean this? ' + j)
 
-# make the user input be the search
 
-# query = input("What would you like to search")
-
-
+async def googleNews(google_msg, googleSport, googleQuery):
+    newSport = googleSport + ' '
+    combinedQuery = 'news ' + newSport + ' '.join(googleQuery)
+    print(combinedQuery)
+    for j in search(combinedQuery, tld="co.in", num=5, stop=1, pause=2):
+        await google_msg.channel.send('Did you mean this? ' + j)

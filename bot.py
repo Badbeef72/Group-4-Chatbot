@@ -20,7 +20,7 @@ import warnings
 import googleSearchTest
 import bmi
 
-TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xb7oAA.vZBrdMqKqh6zbqJQNYPg3HiKrGk' # Bot's unique ID.
+TOKEN = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xb9Pyw.4iRkkNPYpx9_CgkiSQrx2iS5ez4' # Bot's unique ID.
 
 client = discord.Client()
 
@@ -67,6 +67,19 @@ async def on_message(message):
 
     elif 'search' in message_list:
         await googleSearchTest.googleSearch(message, message_list[1:])
+    elif 'news' in message_list:
+        await googleSearchTest.googleNews(message, message_list[1], message_list[2:])
+
+
+@client.event
+# Prints successful login.
+async def on_ready():
+    print('Logged in as')
+    print(client.user.name)
+    print(client.user.id)
+    print('------')
+
+client.run(TOKEN)
 
 # global_user_response = []
 
@@ -156,13 +169,3 @@ async def on_message(message):
 # https://medium.com/analytics-vidhya/building-a-simple-chatbot-in-python-using-nltk-7c8c8215ac6e
 # https://www.youtube.com/watch?v=xECXZ3tyONo
 # https://www.youtube.com/watch?v=FLZvOKSCkxY
-
-@client.event
-# Prints successful login.
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-
-client.run(TOKEN)
