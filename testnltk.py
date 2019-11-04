@@ -1,4 +1,5 @@
-# First, you're going to need to import wordnet: 
+# First, you're going to need to import wordnet:
+
 from nltk.corpus import wordnet 
   
 # Then, we're going to use the term "program" to find synsets like so: 
