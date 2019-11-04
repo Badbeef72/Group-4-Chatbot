@@ -2,14 +2,23 @@ import discord
 import random
 import requests
 import store
+import py_edamam
+from py_edamam import PyEdamam #Credit:https://github.com/JarbasAl/py_edamam and https://www.edamam.com/"
 import nltk
+import json
 from nltk import *
 nltk.download('punkt')
-from py_edamam import  *
 
+r = requests.get('https://api.edamam.com/search?app_id=${f66d3fcf}&app_key=${f4f09a804c47eac41b04d4b0bc6acb08')
+print(r.status_code)
+print(r.text)
+print(r.peek)
 
-token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XbsuHQ.DPmI7HqIVo8EqnO_EdCa-Y_4T3A'
+token = 'NjMyMzE4MzgwMTI4NjAwMDg0.Xb9O7g.oz1dRI8uGJtFkMsDwgBPCdDM0a0'
 client = discord.Client()
+e = PyEdamam(
+            recipes_appid='f66d3fcf',
+            recipes_appkey='f4f09a804c47eac41b04d4b0bc6acb08')
 
 @client.event
 async def on_message(message):
@@ -28,12 +37,27 @@ async def on_message(message):
         msg = str(await client.wait_for('message'.lower()))
         tokenized_word = word_tokenize(msg)
         print(tokenized_word)
-    if "breakfast" and "" in tokenized_word:
+    if "breakfast" in tokenized_word:
         await message.channel.send("I will create a breakfast  meal for you")
+        for recipe in e.search_recipe("breakfast") :
+            await message.channel.send("The recipe that you requested: " + str(recipe))
+            await message.channel.send("This recipe has " + str(round(recipe.calories, 2)) + " calories")
+            await message.channel.send(recipe.url)
+            break
     if "lunch" in tokenized_word:
         await message.channel.send("I will create a lunch meal for you")
+        for recipe in e.search_recipe("lunch"):
+            await message.channel.send("The recipe that you requested: " + str(recipe))
+            await message.channel.send("This recipe has " + str(round(recipe.calories, 2)) + " calories")
+            await message.channel.send(recipe.url)
+            break
     if "dinner" in tokenized_word:
         await message.channel.send("I will create a dinner meal for you")
+        for recipe in e.search_recipe("dinner"):
+            await message.channel.send("The recipe that you requested: " + str(recipe))
+            await message.channel.send("This recipe has " + str(round(recipe.calories, 2)) + " calories")
+            await message.channel.send(recipe.url)
+            break
 
 
 @client.event
