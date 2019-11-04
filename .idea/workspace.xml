@@ -15,9 +15,12 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1SYh1ttokD6yvTTOgmypxdaSbV9" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Main Branch" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -33,7 +36,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Sentiment">
+  <component name="RunManager" selected="Python.languageProcessing">
     <configuration name="BotTemp" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="chatbot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,8 +144,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Sentiment" />
         <item itemvalue="Python.languageProcessing" />
+        <item itemvalue="Python.Sentiment" />
         <item itemvalue="Python.bot" />
         <item itemvalue="Python.BotTemp" />
         <item itemvalue="Python.ZakBot" />
@@ -161,5 +164,16 @@
       <updated>1571746224637</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

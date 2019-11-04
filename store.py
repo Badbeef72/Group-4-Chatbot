@@ -9,3 +9,9 @@ list_of_sorrys = ["Sorry, I don't understand what you mean.", "I'm not sure I qu
 list_of_goods = ["That's good to hear!", "Nice to hear!", "That's good!"]
 list_of_yes = ["What would you like help with?", "Great! Where shall we begin?"]
 list_of_no = ["OK, enjoy your day.", "I will be here if you change your mind.", "No problem, enjoy the rest of the day."]
+
+#weights for topics
+weightWordWeightings = ["lose", "weight", "get", "shape", "slim", "thin", "slimmer", "thinner"]
+muscleMassWeightings = ["gain", "muscle", "get", "stronger", "increase", "mass", "strength"]
+mealWeightings = ["meal", "food", "better", "diet", "healthier", "eating", "eat"]
+workoutWeightings = ["workout", "exercise", "fitness", "cardio"]

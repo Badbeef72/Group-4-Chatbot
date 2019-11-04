@@ -40,11 +40,21 @@ async def beginConversation(userMessage):
                 return
     else:
         return
-
+    
 async def branchToTopics():
     channel = client.get_channel(640678051666984963)
     await channel.send("Anything in particular you need help with?")
-    #weighting goes  here
+    userMessage = await client.wait_for('message')
+    filteredMessage = languageProcessing.sentenceFilter(userMessage.content.lower())
+    conversationTopic = checkTopics(filteredMessage)
+    if conversationTopic == 1:
+        bmiCalculator()
+    elif conversationTopic == 2:
+        mealPrep()
+    elif conversationTopic == 3:
+        exercises()
+
+async def checkTopics(filteredMessage)
 
 @client.event
 async def on_ready():
@@ -52,4 +62,4 @@ async def on_ready():
     channel = client.get_channel(640678051666984963)
     await channel.send('Online and ready to chat.')
 
-client.run("NjQwNjg2MzE0ODI3Njc3NzE2.Xb911A.w8WubCbIOkcvJzxkpcT_IdlurCo")
+client.run("NjQwNjg2MzE0ODI3Njc3NzE2.XcATNA.NUy7SSDCFENDdhdWwAI_f_8JVTU")

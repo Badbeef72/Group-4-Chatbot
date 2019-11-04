@@ -3,6 +3,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk import FreqDist, classify, NaiveBayesClassifier
+from nltk.tag import pos_tag
 import re, string, random
 
 lemmatizer = WordNetLemmatizer()
@@ -35,7 +36,6 @@ def wordPresenceCheck(inputWord, wordList):
             break
     return found
 
-#add Lemmatization
 def sentenceFilter(sentence):
     stopWords = set(stopwords.words("english"))
     tokenizedSentence = word_tokenize(sentence)
@@ -50,7 +50,7 @@ def sentenceFilter(sentence):
 
 def filterTweet(tokenizedTweet, stopWords = ()):
     filteredTokens = []
-    for token, tag in pos_tag(cleanToken):
+    for token, tag in pos_tag(tokenizedTweet):
         token = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+#]|[!*\(\),]|'\
                        '(?:%[0-9a-fA-F][0-9a-fA-F]))+','', token)
         token = re.sub("(@[A-Za-z0-9_]+)","", token)
@@ -62,7 +62,7 @@ def filterTweet(tokenizedTweet, stopWords = ()):
             pos = 'a'
         lemmatizer = WordNetLemmatizer()
         token = lemmatizer.lemmatize(token, pos)
-        if len(token) > 0 and token not in string.punctuation and token.lower() not in stop_words:
+        if len(token) > 0 and token not in string.punctuation and token.lower() not in stopWords:
             filteredTokens.append(token.lower())
         filteredTokens.append(token.lower())
     return filteredTokens
@@ -83,14 +83,13 @@ def CreateSentimentData():
     posFilteredTweetslist = []
     negFilteredTweetslist = []
     for tokens in posTweetTokens:
-        posFilteredTweetslist.append(remove_noise(tokens, stopWords))
+        posFilteredTweetslist.append(filterTweet(tokens, stopWords))
     for tokens in negTweetTokens:
-        negFilteredTweetslist.append(remove_noise(tokens, stopWords))
+        negFilteredTweetslist.append(filterTweet(tokens, stopWords))
 
     posWords = listAllWords(posFilteredTweetslist)
 
     posFreqDistribution = FreqDist(posWords)
-    print(posFreqDistribution.most_common(10))
 
     posModelTokens = getModelTweets(posFilteredTweetslist)
     negModelTokens = getModelTweets(negFilteredTweetslist)
@@ -106,8 +105,11 @@ def CreateSentimentData():
     train_data = dataset[:7000]
     test_data = dataset[7000:]
     classifier = NaiveBayesClassifier.train(train_data)
-    print("Accuracy is:", classify.accuracy(classifier, test_data))entimentData()
+    print("Accuracy is:", classify.accuracy(classifier, test_data))
     return classifier
     
 def returnSentiment(filteredSentence):
     print(classifier.classify(dict([token, True] for token in filteredSentence)))
+
+classifier = CreateSentimentData()
+returnSentiment(sentenceFilter("my day has been pretty good so far"))
