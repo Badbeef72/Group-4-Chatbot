@@ -8,7 +8,7 @@ import nltk
 from nltk import *
 nltk.download('punkt')
 
-token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XcAPGQ.fvUDTEx0nmz4TPILwAxu46rcFNY'
+token = 'NjMyMzE4MzgwMTI4NjAwMDg0.XcyC7Q.dySvp_-xg3B-jNbhrxxKwCtDNdo'
 client = discord.Client()
 e = PyEdamam(
             recipes_appid='f66d3fcf',
@@ -21,6 +21,11 @@ async def on_message(message):
     print(tokenized_word)
     if message.author == client.user:
         return
+    if any(item in store.meal_prep_keywords for item in tokenized_word):
+        await message.channel.send('I can help you to prepare a meal')
+        msg = str(await client.wait_for('message'.lower()))
+        tokenized_word = word_tokenize(msg)
+        print(tokenized_word)
     if "breakfast" in tokenized_word:
         await message.channel.send("What would you like to eat for breakfast?")
         msg = await client.wait_for('message')
