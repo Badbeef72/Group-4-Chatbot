@@ -8,7 +8,6 @@ import numpy as np
 from nltk import *
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 global_user_response = []
@@ -51,8 +50,8 @@ def response(user_response):
     global_user_response = user_response
     bot_response = ''
     sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer = lemNormalize, stop_words = 'english')
-    tfidf = TfidfVec.fit_transform(sent_tokens)
+    rawDocToTFIDF = TfidfVectorizer(tokenizer = lemNormalize, stop_words = 'english')
+    tfidf = rawDocToTFIDF.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
     idx = vals.argsort()[0][-2]
     flat = vals.flatten()

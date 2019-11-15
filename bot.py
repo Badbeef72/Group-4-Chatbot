@@ -14,8 +14,8 @@ from nltk.stem import WordNetLemmatizer
 import random
 import store
 import string
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+#from sklearn.feature_extraction.text import TfidfVectorizer
+#from sklearn.metrics.pairwise import cosine_similarity
 import warnings
 import googleSearchTest
 import bmi
